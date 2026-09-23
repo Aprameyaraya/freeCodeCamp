@@ -16,6 +16,9 @@ type MiscSettingsProps = {
   resetEditorLayout: () => void;
 };
 
+// Offset to prevent top navbar from obscuring anchor target fragments
+const scrollMarginStyle = { scrollMarginTop: '80px' };
+
 const MiscSettings = ({
   keyboardShortcuts,
   sound,
@@ -30,26 +33,37 @@ const MiscSettings = ({
     <>
       <Spacer size='m' />
       <FullWidthRow>
-        <SoundSettings sound={sound} toggleSoundMode={toggleSoundMode} />
-        <KeyboardShortcutsSettings
-          keyboardShortcuts={keyboardShortcuts}
-          toggleKeyboardShortcuts={toggleKeyboardShortcuts}
-          explain={t('settings.shortcuts-explained')?.toString()}
-        />
-        <ScrollbarWidthSettings />
-        <label htmlFor='reset-layout-btn'>
-          {t('settings.reset-editor-layout-tooltip')}
-        </label>
-        <Spacer size='xs' />
-        <Button
-          onClick={resetEditorLayout}
-          id='reset-layout-btn'
-          data-playwright-test-label='reset-layout-btn'
-          disabled={!editorLayout}
-          aria-disabled={!editorLayout}
-        >
-          {t('settings.reset-editor-layout')}
-        </Button>
+        <section id='sound-settings' style={scrollMarginStyle}>
+          <SoundSettings sound={sound} toggleSoundMode={toggleSoundMode} />
+        </section>
+
+        <section id='keyboard-shortcuts' style={scrollMarginStyle}>
+          <KeyboardShortcutsSettings
+            keyboardShortcuts={keyboardShortcuts}
+            toggleKeyboardShortcuts={toggleKeyboardShortcuts}
+            explain={t('settings.shortcuts-explained')?.toString()}
+          />
+        </section>
+
+        <section id='scrollbar-width' style={scrollMarginStyle}>
+          <ScrollbarWidthSettings />
+        </section>
+
+        <section id='reset-editor-layout' style={scrollMarginStyle}>
+          <label htmlFor='reset-layout-btn'>
+            {t('settings.reset-editor-layout-tooltip')}
+          </label>
+          <Spacer size='xs' />
+          <Button
+            onClick={resetEditorLayout}
+            id='reset-layout-btn'
+            data-playwright-test-label='reset-layout-btn'
+            disabled={!editorLayout}
+            aria-disabled={!editorLayout}
+          >
+            {t('settings.reset-editor-layout')}
+          </Button>
+        </section>
       </FullWidthRow>
     </>
   );
